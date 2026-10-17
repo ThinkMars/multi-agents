@@ -4,50 +4,7 @@
 
 ## 整体架构
 
-```mermaid
-flowchart TD
-    U[用户需求] --> PM
-
-    subgraph PM[product-manager 产品经理]
-        P1[需求分析 / 用户故事 / 优先级]
-        P2[C1 PRD]
-        P3[C2 验收标准 AC]
-        P1 --> P2 --> P3
-    end
-
-    P2 --> BE & FE & QA
-    P3 --> BE & FE & QA
-
-    subgraph BE[backend-developer 后端工程师]
-        B1[技术方案 / 接口设计]
-        B2[C3 接口文档 OpenAPI]
-        B3[C4 数据契约 DDL+ER]
-        B4[服务端代码 / 单测]
-        B1 --> B2 --> B3 --> B4
-    end
-
-    B2 -.Mock 先行.-> FE
-    B3 --> FE & QA
-
-    subgraph FE[frontend-developer 前端工程师]
-        F1[页面 / 组件 / 交互]
-        F2[联调 / 自测]
-        F1 --> F2
-    end
-
-    subgraph QA[qa-tester 测试工程师]
-        Q1[测试计划 / 用例]
-        Q2[执行验收与回归]
-        Q3[C5 缺陷单]
-        Q4[C6 测试报告]
-        Q1 --> Q2 --> Q3 --> Q4
-    end
-
-    B4 --> Q2
-    F2 --> Q2
-    Q3 -.修复.-> B4 & F1
-    Q4 -.验收结论.-> PM
-```
+![多角色 Skill 协作流水线](docs/images/architecture.svg)
 
 核心思想：**角色能力（Skill）与协作契约（Contract）分离**。Skill 定义「怎么做」，契约定义「交接什么」——契约格式固定、变更升版、模板统一，是下游角色唯一的开工依据（契约先行）。
 
@@ -72,6 +29,7 @@ multi-agents/
 │   ├── prd/                       #   C1 PRD
 │   ├── api/                       #   C3 接口文档（OpenAPI）
 │   ├── db/                        #   C4 数据契约（DDL + ER）
+│   ├── images/                    #   文档配图（架构图等）
 │   └── test/                      #   测试计划 / 用例 / C6 测试报告
 ├── issues/                        # C5 缺陷单
 └── dist/                          # Skill 打包产物（zip，不入库）

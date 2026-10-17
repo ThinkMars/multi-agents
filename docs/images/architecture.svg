@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 548" width="760" style="max-width: 100%; height: auto;" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect x="0" y="0" width="760" height="548" fill="#FFFFFF"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <g>
+    <rect x="300" y="20" width="160" height="40" rx="20" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="380" y="40" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#334155">用户需求</text>
+  </g>
+  <path d="M380 60 L380 88" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <g>
+    <rect x="230" y="90" width="300" height="64" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1"/>
+    <text x="380" y="116" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="600" fill="#1E3A8A">产品经理 · product-manager</text>
+    <text x="380" y="138" text-anchor="middle" dominant-baseline="central" font-size="12.5" fill="#1D4ED8">产出 C1 PRD · C2 验收标准</text>
+  </g>
+
+  <path d="M380 154 L380 184 M210 184 L550 184" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+  <path d="M210 184 L210 218" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M550 184 L550 218" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <g>
+    <rect x="60" y="220" width="300" height="64" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1"/>
+    <text x="210" y="246" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="600" fill="#4C1D95">后端工程师 · backend-developer</text>
+    <text x="210" y="268" text-anchor="middle" dominant-baseline="central" font-size="12.5" fill="#6D28D9">产出 C3 接口文档 · C4 数据契约 · 服务端代码</text>
+  </g>
+
+  <g>
+    <rect x="400" y="220" width="300" height="64" rx="10" fill="#F0FDFA" stroke="#14B8A6" stroke-width="1"/>
+    <text x="550" y="246" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="600" fill="#115E59">前端工程师 · frontend-developer</text>
+    <text x="550" y="268" text-anchor="middle" dominant-baseline="central" font-size="12.5" fill="#0F766E">消费 C1 + C3 + C4（mock 先行）→ 页面 / 组件</text>
+  </g>
+
+  <path d="M362 252 L396 252" fill="none" stroke="#8B5CF6" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text x="379" y="240" text-anchor="middle" font-size="10.5" fill="#6D28D9">C3 / C4</text>
+
+  <path d="M210 284 L210 314 M550 284 L550 314 M210 314 L550 314" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+  <path d="M380 314 L380 342" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <g>
+    <rect x="230" y="344" width="300" height="64" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+    <text x="380" y="370" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="600" fill="#78350F">测试工程师 · qa-tester</text>
+    <text x="380" y="392" text-anchor="middle" dominant-baseline="central" font-size="12.5" fill="#B45309">产出 C5 缺陷单 · C6 测试报告 · 验收结论</text>
+  </g>
+  <path d="M380 408 L380 436" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <g>
+    <rect x="300" y="438" width="160" height="40" rx="20" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="380" y="458" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#334155">交付 / 放行</text>
+  </g>
+
+  <path d="M230 376 L20 376 L20 252 L58 252" fill="none" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="28" y="330" font-size="11" fill="#B91C1C">C5 缺陷修复</text>
+  <path d="M530 376 L740 376 L740 252 L702 252" fill="none" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="732" y="330" text-anchor="end" font-size="11" fill="#B91C1C">修复后回归</text>
+
+  <g>
+    <rect x="90" y="496" width="580" height="32" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="380" y="513" text-anchor="middle" dominant-baseline="central" font-size="11.5" fill="#475569">契约体系：C1 PRD ｜ C2 验收标准 ｜ C3 接口文档 ｜ C4 数据契约 ｜ C5 缺陷单 ｜ C6 测试报告</text>
+  </g>
+</svg>
