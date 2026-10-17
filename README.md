@@ -5,7 +5,7 @@
 ## 整体架构
 
 ```mermaid
-flowchart LR
+flowchart TD
     U[用户需求] --> PM
 
     subgraph PM[product-manager 产品经理]
@@ -58,13 +58,15 @@ multi-agents/
 ├── PLAN.md                        # 完整开发计划（角色设计 / 契约体系 / 实施步骤）
 ├── README.md
 ├── LICENSE
+├── .agents/
+│   └── skills/                    # 四个角色 Skill（.agents 开放标准目录，跨 Agent 产品通用）
+│       ├── product-manager/       #   产品经理
+│       ├── frontend-developer/    #   前端工程师
+│       ├── backend-developer/     #   后端工程师
+│       └── qa-tester/             #   测试工程师
 ├── .workbuddy/
-│   ├── skills/                    # 四个角色 Skill（项目级，随仓库分发）
-│   │   ├── product-manager/       #   产品经理
-│   │   ├── frontend-developer/    #   前端工程师
-│   │   ├── backend-developer/     #   后端工程师
-│   │   └── qa-tester/             #   测试工程师
-│   └── memory/                    # 项目记忆（工作日志）
+│   ├── skills -> ../.agents/skills  # 软链接入，WorkBuddy 自动发现（唯一真实副本在 .agents/skills/）
+│   └── memory/                    # 项目记忆（工作日志，不入库）
 ├── docs/                          # 契约产物区（按契约类型分目录）
 │   ├── prd/                       #   C1 PRD
 │   ├── api/                       #   C3 接口文档（OpenAPI）
@@ -120,7 +122,7 @@ multi-agents/
 
 ## 使用方式
 
-四个 Skill 位于 `.workbuddy/skills/`，在 WorkBuddy 对话中**提及对应场景即自动触发**，无需手动加载：
+四个 Skill 位于 `.agents/skills/`（`.agents` 开放标准目录，Codex、Cursor 等产品原生读取；WorkBuddy 经 `.workbuddy/skills` 软链自动发现）。在 WorkBuddy 对话中**提及对应场景即自动触发**，无需手动加载：
 
 - 「帮我写一个 XX 需求的 PRD」→ 触发 `product-manager`
 - 「用 React 实现 XX 页面」→ 触发 `frontend-developer`
@@ -147,10 +149,10 @@ multi-agents/
 
 ```bash
 # 校验 C3
-python3 .workbuddy/skills/backend-developer/scripts/validate_openapi.py docs/api/<api>.yaml
+python3 .agents/skills/backend-developer/scripts/validate_openapi.py docs/api/<api>.yaml
 
 # 由 CSV 生成 C6 测试报告
-python3 .workbuddy/skills/qa-tester/scripts/gen_test_report.py docs/test/<results>.csv -o docs/test/<report>.md
+python3 .agents/skills/qa-tester/scripts/gen_test_report.py docs/test/<results>.csv -o docs/test/<report>.md
 ```
 
 ## 联调试跑示例
