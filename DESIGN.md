@@ -1,10 +1,14 @@
-# 跨端 Design Token 规范（D1 视觉契约）
+# 跨端设计实现参考规范
 
-无专职设计师时的默认设计系统；有专职设计师时，Token 文件由其维护，前端按 Token 还原，不自行发挥视觉值。
+Design Token 定义、默认设计系统与五端落地映射。适用于 React / Vue / Flutter / Electron / 微信小程序所有栈；不绑定具体研发流程，完整需求与轻量需求均可引用。
+
+- 无专职设计师时，按本文默认值执行；
+- 有专职设计师时，以其维护的 Token 文件为准，本文作为落地参考；
+- 项目级 Token 落地件存放 `docs/design/design-tokens-v<版本>.md`，各端从同一份同步，禁止各端各写一套。
 
 ## 1. 什么是 Design Token
 
-设计决策与代码实现解耦后的命名实体（W3C Design Tokens 社区标准）：颜色、间距、字号等"设计决策"以 Token 形式唯一命名，代码只引用 Token 名，不出现具体值。
+设计决策与代码实现解耦后的命名实体（W3C Design Tokens 社区标准）：颜色、间距、字号等“设计决策”以 Token 形式唯一命名，代码只引用 Token 名，不出现具体值。
 
 **铁律：前端代码禁止硬编码视觉值**（`#185FA5`、`16px` 之类），一律引用 Token。
 
@@ -22,7 +26,9 @@
 
 `<类别>-<用途>-<变体>-<状态>`，全小写中划线：`text-secondary`、`bg-surface`、`border-danger`、`space-md`。
 
-## 4. 默认 Token 值（无设计师时的默认设计系统）
+## 4. 默认设计系统
+
+无设计师时的默认取值，项目可在此基础上调整语义层（不动全局值）。
 
 ### 4.1 色彩
 
@@ -107,17 +113,15 @@
 | Flutter | `ThemeData` + `ThemeExtension`，`ColorScheme` / `TextTheme` 与语义 Token 一一对应 |
 | 小程序 | WXSS CSS 变量；尺寸用 rpx（750rpx = 100vw），断点概念弱化，重点保证安全区适配 |
 
-**单一来源原则**：Token 定义只存一份——项目级 `docs/design/design-tokens-v<版本>.md`（或代码中的 tokens 源文件），各端从同一份同步，禁止各端各写一套。
-
 ## 6. 与组件规范的衔接
 
 - 组件四类状态（加载 / 空 / 错误 / 边界）的样式引用语义 Token，如空态用 `text-secondary` + `bg-surface`；
-- 通用组件禁止包含硬编码视觉值（见 `component-standards.md` 反模式）；
+- 通用组件禁止包含硬编码视觉值（见 `.agents/skills/frontend-developer/references/component-standards.md` 反模式）；
 - 新组件先查现有 Token 是否够用；不够先提 Token 变更，不在组件内造新值。
 
 ## 7. Token 变更管理
 
-Token 变更是视觉契约变更，遵守契约纪律：
+Token 变更是视觉规范的变更，按契约纪律管理：
 
 1. 升版本（`design-tokens-v1.0` → `v1.1`），更新变更记录；
 2. 通知所有端负责人（前端各栈、如有设计师）；
@@ -127,4 +131,4 @@ Token 变更是视觉契约变更，遵守契约纪律：
 
 1. 复制第 4 节默认值到项目 `docs/design/design-tokens-v1.0.md`，按品牌调整语义层（不动全局值）；
 2. 在代码中落地对应端的 Token 源（CSS 变量 / ThemeData / WXSS 变量）；
-3. PRD 第 4 章「设计 Token」栏指向该文件，前端按文件还原。
+3. PRD「交互与视觉要求」一章的设计 Token 栏指向该文件，前端按文件还原。
