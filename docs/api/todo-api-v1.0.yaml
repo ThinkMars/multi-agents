@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: 待办事项应用 API
+  version: v1.0.0
+  description: |
+    联调试跑产物 · 契约编号 C3 · 生产者：后端角色 · 消费者：前端、测试
+    依据 C1 v1.0 设计；变更须升版本并通知前端与测试。
+    错误码：40001 参数错误；40101 未认证 / token 失效；40301 无权限；40401 资源不存在；40901 冲突；50000 服务端错误。
+servers:
+  - url: http://localhost:8080/api/v1
+    description: 本地开发
+tags:
+  - name: auth
+    description: 注册登录
+  - name: tasks
+    description: 任务管理
+paths:
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: 注册
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: 注册成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthOut'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: 登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthOut'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /tasks:
+    get:
+      tags: [tasks]
+      summary: 获取任务列表（分页 + 状态筛选）
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, default: 20, minimum: 1, maximum: 100 }
+        - name: status
+          in: query
+          schema: { type: integer, enum: [0, 1] }
+          description: 0 未完成，1 已完成；不传查全部
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [tasks]
+      summary: 创建任务
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskOut'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema: { type: integer, format: int64 }
+    patch:
+      tags: [tasks]
+      summary: 更新任务（标题 / 状态 / 截止时间，部分更新）
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskOut'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [tasks]
+      summary: 删除任务（软删除）
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: 删除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: 参数错误
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: { code: 40001, message: "任务标题不能为空", data: null }
+    Unauthorized:
+      description: 未认证或 token 失效
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: { code: 40101, message: "未登录或登录已过期", data: null }
+    Forbidden:
+      description: 无权限（访问他人资源）
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: { code: 40301, message: "无权访问该资源", data: null }
+    NotFound:
+      description: 资源不存在
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: { code: 40401, message: "资源不存在", data: null }
+    Conflict:
+      description: 冲突（如用户名已存在）
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: { code: 40901, message: "用户名已存在", data: null }
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: integer }
+        message: { type: string }
+        data: { type: object, nullable: true }
+    RegisterRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username: { type: string, minLength: 3, maxLength: 50 }
+        password: { type: string, minLength: 8, maxLength: 64 }
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username: { type: string }
+        password: { type: string }
+    AuthOut:
+      type: object
+      properties:
+        token: { type: string }
+        userId: { type: integer, format: int64 }
+        username: { type: string }
+    TaskCreate:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        dueAt: { type: string, format: date-time, nullable: true }
+    TaskUpdate:
+      type: object
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        status: { type: integer, enum: [0, 1] }
+        dueAt: { type: string, format: date-time, nullable: true }
+    TaskOut:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        userId: { type: integer, format: int64 }
+        title: { type: string }
+        status: { type: integer, enum: [0, 1] }
+        dueAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    TaskPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/TaskOut' }
+        total: { type: integer }
+        page: { type: integer }
+        pageSize: { type: integer }

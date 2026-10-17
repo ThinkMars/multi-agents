@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React 最小脚手架</title>
+  <!--
+    使用方式：
+    1. 直接双击本文件即可在浏览器打开（React 18 UMD + Babel CDN 版）。
+    2. 生产项目请改用 Vite 脚手架：npm create vite@latest -- --template react-ts
+    3. 请求对接：services/ 请求层的 baseURL 对应 C3 的 servers，mock 数据以 C3 为基准。
+  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --color-primary: #378add;
+      --color-text: #2c2c2a;
+      --color-text-secondary: #888780;
+      --color-border: #d3d1c7;
+      --color-bg: #ffffff;
+      --color-bg-secondary: #f1efe8;
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--color-bg-secondary);
+      color: var(--color-text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+    .app { width: 100%; max-width: 480px; }
+    .card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .input-row input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      font-size: 14px;
+    }
+    .input-row input:focus { outline: 2px solid var(--color-primary); border-color: transparent; }
+    button.primary {
+      padding: 8px 16px;
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    ul { list-style: none; }
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 4px;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 14px;
+    }
+    li.done span { text-decoration: line-through; color: var(--color-text-secondary); }
+    li button { margin-left: auto; background: none; border: none; color: var(--color-text-secondary); cursor: pointer; }
+    .empty { padding: 24px 0; text-align: center; color: var(--color-text-secondary); font-size: 13px; }
+    .error { color: #a32d2d; font-size: 12px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // 模拟 C3：GET /api/v1/tasks 返回 TaskPage，POST /api/v1/tasks 接收 TaskCreate
+    // 实际接入时替换为 services/ 请求层调用
+    const mockTasks = [
+      { id: 1, title: "阅读 React 规范", status: 1, createdAt: "2026-10-17T09:00:00+08:00" },
+      { id: 2, title: "搭建项目脚手架", status: 0, createdAt: "2026-10-17T10:30:00+08:00" },
+    ];
+
+    function TaskList() {
+      const [tasks, setTasks] = useState(mockTasks);
+      const [title, setTitle] = useState("");
+      const [error, setError] = useState("");
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        if (!title.trim()) {
+          setError("任务内容不能为空");
+          return;
+        }
+        setError("");
+        setTasks([...tasks, { id: Date.now(), title: title.trim(), status: 0, createdAt: new Date().toISOString() }]);
+        setTitle("");
+      }
+
+      function toggle(id) {
+        setTasks(tasks.map((t) => (t.id === id ? { ...t, status: t.status ? 0 : 1 } : t)));
+      }
+
+      function remove(id) {
+        setTasks(tasks.filter((t) => t.id !== id));
+      }
+
+      return (
+        <div className="card">
+          <h1 style={{ fontSize: 18, marginBottom: 16 }}>待办事项</h1>
+          <form className="input-row" onSubmit={handleSubmit}>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="输入任务内容，回车添加"
+              maxLength={200}
+              aria-label="任务内容"
+            />
+            <button className="primary" type="submit" disabled={!title.trim()}>添加</button>
+          </form>
+          {error && <p className="error" role="alert">{error}</p>}
+          {tasks.length === 0 ? (
+            <p className="empty">还没有任务，添加第一条吧</p>
+          ) : (
+            <ul>
+              {tasks.map((t) => (
+                <li key={t.id} className={t.status ? "done" : ""}>
+                  <input type="checkbox" checked={!!t.status} onChange={() => toggle(t.id)} aria-label={"完成 " + t.title} />
+                  <span>{t.title}</span>
+                  <button type="button" onClick={() => remove(t.id)} aria-label={"删除 " + t.title}>删除</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="app">
+          <TaskList />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
