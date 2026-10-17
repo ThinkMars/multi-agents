@@ -64,7 +64,7 @@
 | C5 | 缺陷单 | 测试 | 前端、后端 | Markdown，`issues/BUG-<编号>.md` |
 | C6 | 测试报告 | 测试 | 产品、全员 | Markdown，`docs/test/` |
 
-设计规范不占契约编号：以根目录 `DESIGN.md` 为唯一源，业务项目使用其项目根目录 DESIGN.md。
+设计规范不占契约编号：业务项目以其根目录 `DESIGN.md` 为生效规范；本仓库根目录 DESIGN.md 为参考模板。
 
 ### 3.3 契约纪律
 

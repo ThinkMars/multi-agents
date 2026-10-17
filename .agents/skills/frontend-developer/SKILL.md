@@ -55,7 +55,7 @@ metadata:
 - `references/stack-decision.md` — 五栈选型决策树
 - `references/react.md` / `vue.md` / `flutter.md` / `electron.md` / `miniprogram.md` — 分栈规范
 - `references/component-standards.md` — 跨栈组件设计原则
-- `../../DESIGN.md` — 跨端设计实现参考规范（业务项目复制为项目根目录 DESIGN.md，作为唯一规范源）
+- `../../DESIGN.md` — 跨端设计实现参考规范（参考模板；业务项目以项目根目录 DESIGN.md 为规范）
 - `references/ui-review-checklist.md` — UI 走查清单
 - `assets/starters/react/` — React 最小脚手架（CDN 版，可直接打开）
 - `scripts/scaffold.sh` — 生成页面 / 组件骨架（可选）
