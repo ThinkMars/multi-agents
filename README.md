@@ -4,7 +4,7 @@
 
 ## 整体架构
 
-![多角色 Skill 协作流水线](docs/images/architecture.svg)
+![多角色 Skill 协作流水线](images/architecture.svg)
 
 核心思想：**角色能力（Skill）与协作契约（Contract）分离**。Skill 定义「怎么做」，契约定义「交接什么」——契约格式固定、变更升版、模板统一，是下游角色唯一的开工依据（契约先行）。
 
@@ -16,6 +16,7 @@ multi-agents/
 ├── README.md
 ├── DESIGN.md                      # 跨端设计实现参考规范（参考模板；业务项目以项目根目录 DESIGN.md 为规范）
 ├── LICENSE
+├── images/                        # 文档配图（架构图等）
 ├── .agents/
 │   └── skills/                    # 四个角色 Skill（.agents 开放标准目录，跨 Agent 产品通用）
 │       ├── product-manager/       #   产品经理
@@ -29,7 +30,6 @@ multi-agents/
 │   ├── prd/                       #   C1 PRD
 │   ├── api/                       #   C3 接口文档（OpenAPI）
 │   ├── db/                        #   C4 数据契约（DDL + ER）
-│   ├── images/                    #   文档配图（架构图等）
 │   └── test/                      #   测试计划 / 用例 / C6 测试报告
 ├── issues/                        # C5 缺陷单
 └── dist/                          # Skill 打包产物（zip，不入库）
