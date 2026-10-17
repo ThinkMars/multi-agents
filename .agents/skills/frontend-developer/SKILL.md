@@ -34,7 +34,7 @@ metadata:
 
 1. **读输入**：通读 C1（功能、第 4 章交互与视觉要求）、C3（接口）、C4（字段与类型）。发现契约缺口（缺接口、字段含义不明、第 4 章状态缺失）时，先向对应角色提问并记录到联调问题清单，禁止臆造字段与视觉值；
 2. **定方案**：按上表确定技术栈，输出简要技术方案（目录结构、状态管理、路由、依赖选型）；
-3. **开发**：遵循对应栈的规范（`references/<栈>.md`）与跨栈组件原则（`references/component-standards.md`）；视觉值一律引用 Token（根目录 `DESIGN.md` 或项目 Token 文件），禁止硬编码；
+3. **开发**：遵循对应栈的规范（`references/<栈>.md`）与跨栈组件原则（`references/component-standards.md`）；视觉值一律引用 Token（项目根目录 `DESIGN.md`），禁止硬编码；
 4. **自测**：对照 `references/ui-review-checklist.md` 逐项检查：兼容性、响应式、空态、错误态、加载态；
 5. **联调**：以 C3 指定版本对接后端，mock 数据也须以 C3 为基准；问题记入联调问题清单并反馈后端。
 
@@ -55,7 +55,7 @@ metadata:
 - `references/stack-decision.md` — 五栈选型决策树
 - `references/react.md` / `vue.md` / `flutter.md` / `electron.md` / `miniprogram.md` — 分栈规范
 - `references/component-standards.md` — 跨栈组件设计原则
-- `../../DESIGN.md` — 跨端设计实现参考规范（Design Token、默认设计系统、五端落地映射）
+- `../../DESIGN.md` — 跨端设计实现参考规范（业务项目复制为项目根目录 DESIGN.md，作为唯一规范源）
 - `references/ui-review-checklist.md` — UI 走查清单
 - `assets/starters/react/` — React 最小脚手架（CDN 版，可直接打开）
 - `scripts/scaffold.sh` — 生成页面 / 组件骨架（可选）

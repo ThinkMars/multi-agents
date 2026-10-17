@@ -57,7 +57,7 @@ flowchart TD
 multi-agents/
 ├── PLAN.md                        # 完整开发计划（角色设计 / 契约体系 / 实施步骤）
 ├── README.md
-├── DESIGN.md                      # 跨端设计实现参考规范（Design Token / 默认设计系统 / 五端落地映射）
+├── DESIGN.md                      # 跨端设计实现规范（唯一源：Token / 默认设计系统 / 五端落地映射）
 ├── LICENSE
 ├── .agents/
 │   └── skills/                    # 四个角色 Skill（.agents 开放标准目录，跨 Agent 产品通用）
